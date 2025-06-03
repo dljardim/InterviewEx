@@ -1,0 +1,41 @@
+
+What is the difference between @State, @Binding, and @ObservedObject in SwiftUI?
+Explain when and why you'd use each, and optionally give a simple example.
+
+@State ipmlies ownership to the view.  In a counter app that increments a counter by 1 the counter should be:
+@State private var counter = 0
+
+@Binding is allows for 2 way binding between 2 views.  A parent will create the instance of an object, then add a binding to a child view which has the abilty to affect its parent.
+
+@ObservableObject
+ - Object that is managed outside of the consuming child view. Most often it is seen in a @ObservabeObject  /  @Published pairing If @Published is used, forces an UI update on the when the value of a @published variable changes.
+ 
+-- revised
+
+
+state retaining an altered value of a variable - counter
+
+
++ create a class - outside of the struct - that conforms to the ObservableObject protocol.
++ create an instance of
+
+ObservalbeObject vs @StateObject
+obs is a protocol
+@StateObject is used when creating a instance of a reference type class.
+
+@Binding - using @Binding when a parent state variable should be alterable by the child.
+ - toggle a lightbulb on and off
+ 
+ @StateObject holds the value of reference type
+
+-----------
+
+
+What is the difference between @ObservedObject and @StateObject in SwiftUI?
+When would you use one over the other?
+
+@ObservedObject is a reference to an instance a class created outside of the view and passed in.
+@StateObject instance of a refernce types is created within the view.
+
+When to use a observedObject - when you have a lot of subscribers that rely on the SAME object and that need to be redrawn or updated when the published variable changes.  The
+StateObject - when you want a local instance of a reference type
