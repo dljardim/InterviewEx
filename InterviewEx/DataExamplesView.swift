@@ -253,9 +253,112 @@ struct Ex6UserAddressView:View{
 // ex6 - end
 /**************************************************************************************************************/
 
+/**************************************************************************************************************/
+// ex7 - start
+// summary / challenge:
+
+//🧩 Goal:
+//Split your form into parent and child views, and pass a Binding to the child view so it can edit a portion of the parent’s @State data.
+//This is common when building reusable forms, editors, or modular views.
+//🛠 Scenario:
+//You already have a User with a nested Address. Now you'll:
+//Keep @State private var user in the parent view.
+//Create a child view (e.g., AddressEditor) that receives a Binding<Address> and edits the address fields.
+//📦 Requirements:
+//struct AddressEditor: View {
+//    @Binding var address: Address
+//    
+//    var body: some View {
+//        // TextFields to edit street and city
+//    }
+//}
+//
+//struct Ex7UserEditor: View {
+//    @State private var user = User(name: "Sally", address: Address(street: "123 Main", city: "Springfield"))
+//    
+//    var body: some View {
+//        // TextField for user.name
+//        // Pass $user.address into AddressEditor
+//    }
+//}
+//🎯 Goal:
+//When the user edits name/street/city, changes reflect in the user stored in the parent.
+//Child doesn't own the state — it only binds to a slice of it.
+
+
+struct Ex7Address{
+    var street:String
+    var city: String
+}
+
+struct Ex7User{
+    var name:String
+    var address: Address
+}
+
+// private @state child
+struct Ex7ParentView:View{
+    @State private var ex7AddressParent:Ex7Address
+    var body: some View {
+        VStack{
+            
+        }
+    }
+}
 
 
 
+struct Ex7AddressEditor: View {
+    
+    @Binding var ex7AddressChild:Ex7Address
+    
+    var body: some View {
+        VStack{
+            TextField(
+                "Street",
+                text:Binding(
+                    get: {ex7AddressChild.street
+                    },
+                    set: {ex7AddressChild.street = $0})
+            ).textFieldStyle(.roundedBorder)
+            
+            TextField(
+                "City",
+                text:Binding(
+                    get: {ex7AddressChild.city
+                    },
+                    set: {ex7AddressChild.city = $0})
+            ).textFieldStyle(.roundedBorder)
+        }
+    }
+}
+
+struct Ex7UserEditor: View {
+    @State private var user = User(name: "Sally", address: Address(street: "123 Main", city: "Springfield"))
+    
+    var body: some View {
+        TextField("Name", text:Binding(get:{user.name}, set:{user.name = $0}))
+        
+        Ex7AddressEditor(ex7AddressChild: user.address)
+    }
+}
+
+
+
+// ex7 - end
+/*************
+
+
+
+
+
+/**************************************************************************************************************/
+// ex## - start
+// summary / challenge:
+
+
+// ex## - end
+/**************************************************************************************************************/
 
 
 
