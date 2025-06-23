@@ -267,7 +267,7 @@ struct Ex6UserAddressView:View{
 //📦 Requirements:
 //struct AddressEditor: View {
 //    @Binding var address: Address
-//    
+//
 //    var body: some View {
 //        // TextFields to edit street and city
 //    }
@@ -275,7 +275,7 @@ struct Ex6UserAddressView:View{
 //
 //struct Ex7UserEditor: View {
 //    @State private var user = User(name: "Sally", address: Address(street: "123 Main", city: "Springfield"))
-//    
+//
 //    var body: some View {
 //        // TextField for user.name
 //        // Pass $user.address into AddressEditor
@@ -293,20 +293,42 @@ struct Ex7Address{
 
 struct Ex7User{
     var name:String
-    var address: Address
+    var address: Ex7Address
 }
 
 // private @state child
 struct Ex7ParentView:View{
-    @State private var ex7AddressParent:Ex7Address
+    @State private var user:Ex7User = Ex7User(
+        name: "Damian",
+        address: Ex7Address(street: "dStreet", city: "dCity")
+    )
     var body: some View {
         VStack{
+            Text("ParentView")
+            Text("name: \(user.name)")
+            Text("street: \(user.address.street)")
+            Text("city: \(user.address.city)")
             
+            ThickDivider()
+            
+            Ex7AddressEditor(ex7AddressChild: $user.address)
         }
     }
 }
 
-
+struct ThickDivider: View {
+    var color: Color = .gray
+    var height: CGFloat = 2
+    
+    var body: some View {
+        VStack{
+            Rectangle()
+                .fill(color.opacity(0.50))
+                .frame(height: height)
+                .edgesIgnoringSafeArea(.horizontal)
+        }.padding()
+    }
+}
 
 struct Ex7AddressEditor: View {
     
@@ -334,38 +356,21 @@ struct Ex7AddressEditor: View {
 }
 
 struct Ex7UserEditor: View {
-    @State private var user = User(name: "Sally", address: Address(street: "123 Main", city: "Springfield"))
+    @State private var user = Ex7User(name: "Sally", address: Ex7Address(street: "123 Main", city: "Springfield"))
     
     var body: some View {
         TextField("Name", text:Binding(get:{user.name}, set:{user.name = $0}))
         
-        Ex7AddressEditor(ex7AddressChild: user.address)
+        Ex7AddressEditor(ex7AddressChild: $user.address)
     }
 }
 
-
-
 // ex7 - end
-/*************
-
-
-
-
-
 /**************************************************************************************************************/
-// ex## - start
-// summary / challenge:
-
-
-// ex## - end
-/**************************************************************************************************************/
-
-
 
 
 
 
 #Preview {
-    //    Ex5ProfileView()
-    Ex6UserAddressView()
+//    exValidation1().preferredColorScheme(.dark)
 }

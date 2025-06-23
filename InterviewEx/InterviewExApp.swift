@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-@main
+//@main
 struct InterviewExApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            ContactApp()
         }
         
     }
